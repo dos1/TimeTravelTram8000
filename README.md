@@ -13,3 +13,9 @@ Why time traveling tram?
 Because this game was made in the time traveling tram (*Düwag GT8*), departing from *Most Dworcowy* (Poznań, Poland) station at 2 AM 2014-10-26, driving through the city for one hour and arriving at the same place at 2 AM 2014-10-26!
 
 Both the real time traveling tram and my game about time traveling tram were part of [0h Game Jam](http://0hgame.eu/) organized by [Sos Sosowski](http://sos.gd/).
+
+Credits
+------------------------
+The photo of Düwag GT8's dashboard comes from http://www.km-forum.com.pl/galeria/details.php?image_id=11848
+
+The game is available under the GNU General Public License version 3 or later.
