@@ -81,8 +81,14 @@ div {
 .wrong {
   color: red;
 }
-h1, .instr {
+h1, .instr, .footer {
   text-align: center;
+}
+.footer {
+  margin-top: 20px;
+}
+a {
+  color: white;
 }
 </style>
 </head>
@@ -90,8 +96,8 @@ h1, .instr {
 <h1>TimeTravelTram8000</h1>
 <div class="instr">
 Time traveling tram needs a driver! Traveling through time needs proper navigation just like when traveling through the city. However, time traveling is tough and needs faster and faster reaction each turn! Switch the crossovers properly and ensure that our tram arrives savely one hour before!
-<div style="margin-top: 20px">Managable wrong turns: <span class="lives"></span></div>
-<div>Minutes traveled: <span class="points"></span></div>
+<div style="margin-top: 20px">Managable wrong turns: <span class="lives">3</span></div>
+<div>Minutes traveled: <span class="points">0</span></div>
 
 </div>
 
@@ -118,11 +124,16 @@ Time traveling tram needs a driver! Traveling through time needs proper navigati
 
 <div class="instr">
 <div>
-Use keyboard arrows to switch crossovers. The bottom one is the current one, the top ones tell you which ones comes next!
+Use keyboard arrows to switch crossovers. The bottom one is the current one, the top ones tell you which ones come next!
 </div>
 
 
 </div>
+
+<div class="footer">
+by <a href="http://dosowisko.net/" target="_blank">dos</a>
+</div>
+
 <script>
 
 var game = (function() {
@@ -143,13 +154,18 @@ var game = (function() {
         'down':40
     };
 
-    var points = 0;
-    var lives = 4;
+    var points, lives;
 
     var status = '';
 
     var init = function() {
         $('#start').on('click', function() {
+            points = 0;
+            lives = 3;
+            lastStepTime = Date.now();
+            stepDuration = 1000;
+
+            update();
             $('.dimmer').fadeOut(200);           
             handleFrame();
             $('body').on('keypress', keyPress);
@@ -173,10 +189,12 @@ var game = (function() {
         curKeyCode = e.keyCode;
         checkKeyCode();
         update();
-        e.preventDefault();
+        if (curKeyCode >= 37 && curKeyCode <= 40) {
+            e.preventDefault();
+        }
     };
 
-    var lastFrameTime = Date.now(), lastStepTime = Date.now(), stepDuration = 1000;
+    var lastStepTime, stepDuration;
 
     var handleFrame = function() {
         if (lastStepTime + stepDuration <= Date.now()) {
@@ -184,9 +202,13 @@ var game = (function() {
             tick();
             update();
         }
-        lastFrameTime = Date.now();
+        if (points >= 60) {
+          $('.points').addClass('correct');
+        }
         if (lives < 0) {
             alert("The end! Minutes traveled: " + points);
+            $('.lives').addClass('wrong');
+            $('.dimmer').show();
         } else {
             requestAnimationFrame(handleFrame);
         }
@@ -216,6 +238,16 @@ var game = (function() {
         $('.main.item').removeClass('wrong correct').addClass(status);
         $('.lives').text(lives);
         $('.points').text(points);
+        if (points >= 60) {
+          $('.points').addClass('correct');
+        } else {
+          $('.points').removeClass('correct');
+        }
+        if (lives < 0) {
+            $('.lives').addClass('wrong');
+        } else {
+            $('.lives').removeClass('wrong');
+        }
     };
 
     return {
