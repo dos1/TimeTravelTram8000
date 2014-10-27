@@ -168,7 +168,7 @@ var game = (function() {
             update();
             $('.dimmer').fadeOut(200);           
             handleFrame();
-            $('body').on('keypress', keyPress);
+            $('body').on('keydown', keyPress);
         });
 
     };
@@ -186,7 +186,7 @@ var game = (function() {
     };
 
     var keyPress = function(e) {
-        curKeyCode = e.keyCode;
+        curKeyCode = e.which;
         checkKeyCode();
         update();
         if (curKeyCode >= 37 && curKeyCode <= 40) {
